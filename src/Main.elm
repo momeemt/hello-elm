@@ -4,43 +4,58 @@ import Browser
 import Html exposing (Html, button, div, text)
 import Html.Attributes exposing (class)
 import Html.Events exposing (onClick)
+import Random
 
 
 main : Program () Model Msg
 main =
-    Browser.sandbox
+    Browser.element
         { init = init
         , update = update
+        , subscriptions = subscriptions
         , view = view
         }
 
 
-init : Model
-init =
-    { number = 0 }
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    Sub.none
 
 
 type alias Model =
     { number : Int }
 
 
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( { number = 0 }, Cmd.none )
+
+
 type Msg
     = Increment
     | Decrement
     | Reset
+    | Roll
+    | NewFace Int
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Increment ->
-            { model | number = model.number + 1 }
+            ( { model | number = model.number + 1 }, Cmd.none )
 
         Decrement ->
-            { model | number = model.number - 1 }
+            ( { model | number = model.number - 1 }, Cmd.none )
 
         Reset ->
-            { model | number = 0 }
+            ( { model | number = 0 }, Cmd.none )
+
+        Roll ->
+            ( model, Random.generate NewFace (Random.int 1 6) )
+
+        NewFace newFace ->
+            ( { model | number = newFace }, Cmd.none )
 
 
 button_style : String -> String
@@ -55,4 +70,5 @@ view model =
         , div [ class "bold px-4 font-bold" ] [ text (String.fromInt model.number) ]
         , button [ onClick Decrement, button_style "blue" |> class ] [ text "Minus" ]
         , button [ onClick Reset, button_style "purple" ++ " mx-4" |> class ] [ text "Reset" ]
+        , button [ onClick Roll, button_style "red" ++ " mx-4" |> class ] [ text "Random" ]
         ]
