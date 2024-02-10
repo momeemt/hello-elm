@@ -9,14 +9,19 @@ import Html.Events exposing (onClick)
 main : Program () Model Msg
 main =
     Browser.sandbox
-        { init = 0
+        { init = init
         , update = update
         , view = view
         }
 
 
+init : Model
+init =
+    { number = 0 }
+
+
 type alias Model =
-    Int
+    { number : Int }
 
 
 type Msg
@@ -29,13 +34,13 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         Increment ->
-            model + 1
+            { model | number = model.number + 1 }
 
         Decrement ->
-            model - 1
+            { model | number = model.number - 1 }
 
         Reset ->
-            0
+            { model | number = 0 }
 
 
 button_style : String -> String
