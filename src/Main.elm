@@ -38,11 +38,16 @@ update msg model =
             0
 
 
+button_style : String -> String
+button_style c =
+    "bg-" ++ c ++ "-500 hover:bg-" ++ c ++ "-700 text-white font-bold py-2 px-4 rounded-full"
+
+
 view : Model -> Html Msg
 view model =
-    div []
-        [ button [ onClick Increment, class "text-red-500" ] [ text "+" ]
-        , div [] [ text (String.fromInt model) ]
-        , button [ onClick Decrement ] [ text "-" ]
-        , button [ onClick Reset ] [ text "Reset" ]
+    div [ class "py-10 px-10 flex content-center" ]
+        [ button [ onClick Increment, button_style "red" |> class ] [ text "Plus" ]
+        , div [ class "bold px-4 font-bold" ] [ text (String.fromInt model) ]
+        , button [ onClick Decrement, button_style "blue" |> class ] [ text "Minus" ]
+        , button [ onClick Reset, button_style "purple" ++ " mx-4" |> class ] [ text "Reset" ]
         ]
