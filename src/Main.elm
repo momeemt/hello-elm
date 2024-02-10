@@ -52,7 +52,7 @@ view : Model -> Html Msg
 view model =
     div [ class "py-10 px-10 flex content-center" ]
         [ button [ onClick Increment, button_style "red" |> class ] [ text "Plus" ]
-        , div [ class "bold px-4 font-bold" ] [ text (String.fromInt model) ]
+        , div [ class "bold px-4 font-bold" ] [ text (String.fromInt model.number) ]
         , button [ onClick Decrement, button_style "blue" |> class ] [ text "Minus" ]
         , button [ onClick Reset, button_style "purple" ++ " mx-4" |> class ] [ text "Reset" ]
         ]
